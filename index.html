@@ -91,18 +91,24 @@
   </head>
 
   <!-- Google tag (gtag.js) -->
-  <script
-    async
-    src="https://www.googletagmanager.com/gtag/js?id=G-2CWQH0QFZW"
-  ></script>
   <script>
+    // Initialize dataLayer early
     window.dataLayer = window.dataLayer || [];
     function gtag() {
       dataLayer.push(arguments);
     }
-    gtag("js", new Date());
 
-    gtag("config", "G-2CWQH0QFZW");
+    // Load Google Analytics after page is completely loaded
+    window.addEventListener("load", function () {
+      const script = document.createElement("script");
+      script.defer = true;
+      script.src = "https://www.googletagmanager.com/gtag/js?id=G-2CWQH0QFZW";
+      script.onload = function () {
+        gtag("js", new Date());
+        gtag("config", "G-2CWQH0QFZW");
+      };
+      document.head.appendChild(script);
+    });
   </script>
 
   <body class="min-h-screen gradient-bg">
