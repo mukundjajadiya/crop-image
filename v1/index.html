@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Instagram Cropper - Resize Images for Posts & Stories</title>
+    <meta
+      name="description"
+      content="Free Instagram image resizer. Resize photos for posts (1080x1080), stories (9:16), profile pictures. Add padding without cropping."
+    />
+    <meta
+      name="keywords"
+      content="Instagram cropper, Instagram image resizer, Instagram photo resizer, resize image for Instagram, Instagram aspect ratio tool, Instagram padding tool, social media image resizer, Instagram post size, Instagram story size, free online image resizer, 1080x1080, 9:16 aspect ratio, 4:5 ratio, Instagram profile picture resizer, crop image for Instagram, fit image Instagram, Instagram image dimensions, square image Instagram, portrait Instagram post, landscape Instagram post, Instagram reels size, IGTV size, without cropping"
+    />
+    <meta name="author" content="Reduce Image Size" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://crop.reduceimgsize.com/" />
+
+    <!-- Additional SEO Meta Tags -->
+    <meta name="language" content="en" />
+    <meta name="revisit-after" content="1 days" />
+    <meta name="distribution" content="global" />
+    <meta name="rating" content="general" />
+    <meta name="theme-color" content="#E4405F" />
+
+    <!-- Favicon Icons -->
+    <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="assets/images/favicon-16x16.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="assets/images/favicon-32x32.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="assets/images/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="192x192"
+      href="assets/images/android-chrome-192x192.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="512x512"
+      href="assets/images/android-chrome-512x512.png"
+    />
+    <link rel="manifest" href="assets/site.webmanifest" />
+
+    <link rel="stylesheet" href="assets/css/style.css" />
+
+    <style>
+      .gradient-bg {
+        background: linear-gradient(-45deg, #833ab4, #e4405f, #f56040, #fccc63);
+        background-size: 400% 400%;
+        animation: gradient 15s ease infinite;
+      }
+
+      .glass-effect {
+        backdrop-filter: blur(16px) saturate(180%);
+        background-color: rgba(255, 255, 255, 0.75);
+        border: 1px solid rgba(255, 255, 255, 0.125);
+      }
+
+      .dark-glass {
+        backdrop-filter: blur(16px) saturate(180%);
+        background-color: rgba(17, 25, 40, 0.75);
+        border: 1px solid rgba(255, 255, 255, 0.125);
+      }
+
+      .preview-info {
+        backdrop-filter: blur(8px);
+        background: rgba(0, 0, 0, 0.7);
+      }
+
+      @media (max-width: 640px) {
+        .mobile-stack {
+          flex-direction: column;
+        }
+      }
+    </style>
+  </head>
+
+  <!-- Google tag (gtag.js) -->
+  <script>
+    // Initialize dataLayer early
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    // Load Google Analytics after page is completely loaded
+    window.addEventListener("load", function () {
+      const script = document.createElement("script");
+      script.defer = true;
+      script.src = "https://www.googletagmanager.com/gtag/js?id=G-2CWQH0QFZW";
+      script.onload = function () {
+        gtag("js", new Date());
+        gtag("config", "G-2CWQH0QFZW");
+      };
+      document.head.appendChild(script);
+    });
+  </script>
+
+  <body class="min-h-screen gradient-bg">
+    <!-- Background Pattern -->
+    <div class="fixed inset-0 opacity-20">
+      <div
+        class="absolute inset-0"
+        style="
+          background-image: radial-gradient(
+            circle at 1px 1px,
+            rgba(255, 255, 255, 0.3) 1px,
+            transparent 0
+          );
+          background-size: 50px 50px;
+        "
+      ></div>
+    </div>
+
+    <!-- Main Container -->
+    <div
+      class="relative min-h-screen flex items-center justify-center p-4 sm:p-6 lg:p-8"
+    >
+      <div class="w-full max-w-6xl mx-auto">
+        <!-- Header -->
+        <div class="text-center mb-8 sm:mb-12">
+          <h1
+            class="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-4 animate-float"
+          >
+            <span
+              class="bg-gradient-to-r from-pink-400 via-purple-400 to-indigo-400 bg-clip-text text-transparent"
+            >
+              Free Instagram
+            </span>
+            <span class="text-white">Cropper Tool</span>
+          </h1>
+          <p class="text-lg sm:text-xl text-white/80 max-w-2xl mx-auto">
+            Resize images for Instagram posts, stories & profile pictures. Add
+            professional padding without cropping - Perfect aspect ratios for
+            all Instagram formats (1080x1080, 9:16, 4:5, 1.91:1)
+          </p>
+        </div>
+
+        <!-- Main Content Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+          <!-- Controls Panel -->
+          <div class="glass-effect rounded-3xl p-6 sm:p-8 shadow-2xl">
+            <div class="space-y-6 sm:space-y-8">
+              <!-- File Upload Section -->
+              <div class="space-y-4">
+                <h2
+                  class="text-xl sm:text-2xl font-semibold text-gray-800 flex items-center gap-3"
+                >
+                  <div
+                    class="w-8 h-8 bg-gradient-to-r from-instagram-pink to-instagram-purple rounded-lg flex items-center justify-center"
+                  >
+                    <svg
+                      class="w-5 h-5 text-white"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                      />
+                    </svg>
+                  </div>
+                  Upload Image
+                </h2>
+
+                <div class="relative group">
+                  <input
+                    type="file"
+                    id="fileInput"
+                    accept="image/*"
+                    class="hidden"
+                  />
+                  <label
+                    for="fileInput"
+                    class="flex flex-col items-center justify-center w-full h-32 sm:h-40 border-3 border-dashed border-gray-300 rounded-2xl cursor-pointer bg-gray-50 hover:bg-gray-100 transition-all duration-300 group-hover:border-instagram-pink group-hover:bg-pink-50"
+                  >
+                    <div
+                      class="flex flex-col items-center justify-center pt-5 pb-6"
+                    >
+                      <svg
+                        class="w-8 h-8 sm:w-10 sm:h-10 mb-3 text-gray-400 group-hover:text-instagram-pink transition-colors"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                        />
+                      </svg>
+                      <p
+                        class="mb-2 text-sm sm:text-base text-gray-500 group-hover:text-instagram-pink transition-colors"
+                      >
+                        <span class="font-semibold">Click to upload</span> or
+                        drag and drop
+                      </p>
+                      <p class="text-xs text-gray-500">
+                        PNG, JPG, JPEG (MAX. 10MB)
+                      </p>
+                    </div>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Instagram Format Selection -->
+              <div class="space-y-4">
+                <label
+                  for="aspectRatioSelect"
+                  class="text-xl sm:text-2xl font-semibold text-gray-800 flex items-center gap-3"
+                >
+                  <div
+                    class="w-8 h-8 bg-gradient-to-r from-instagram-purple to-instagram-blue rounded-lg flex items-center justify-center"
+                  >
+                    <svg
+                      class="w-5 h-5 text-white"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                      />
+                    </svg>
+                  </div>
+                  Instagram Format
+                </label>
+
+                <select
+                  id="aspectRatioSelect"
+                  aria-label="Select Instagram format and aspect ratio"
+                  class="w-full px-4 py-3 sm:py-4 text-sm sm:text-base bg-white border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-instagram-pink/20 focus:border-instagram-pink transition-all duration-300 appearance-none cursor-pointer"
+                >
+                  <option value="1">
+                    📱 Instagram Square Post 1080x1080 (1:1)
+                  </option>
+                  <option value="0.8">
+                    📷 Instagram Portrait Post 1080x1350 (4:5)
+                  </option>
+                  <option value="1.91">
+                    🖼️ Instagram Landscape Post 1080x566 (1.91:1)
+                  </option>
+                  <option value="0.5625">
+                    📱 Instagram Story/Reel 1080x1920 (9:16)
+                  </option>
+                </select>
+              </div>
+
+              <!-- Fit Mode Selection -->
+              <div class="space-y-4">
+                <h2
+                  class="text-xl sm:text-2xl font-semibold text-gray-800 flex items-center gap-3"
+                >
+                  <div
+                    class="w-8 h-8 bg-gradient-to-r from-instagram-orange to-instagram-yellow rounded-lg flex items-center justify-center"
+                  >
+                    <svg
+                      class="w-5 h-5 text-white"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4"
+                      />
+                    </svg>
+                  </div>
+                  Mode
+                </h2>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                  <label
+                    class="radio-option relative flex items-center p-4 sm:p-5 bg-white border-2 border-gray-200 rounded-xl cursor-pointer hover:border-instagram-pink hover:shadow-lg transition-all duration-300 group"
+                  >
+                    <input
+                      type="radio"
+                      name="fitMode"
+                      value="fit"
+                      checked
+                      class="sr-only"
+                    />
+                    <div class="flex items-center w-full">
+                      <div
+                        class="radio-indicator w-6 h-6 border-2 border-gray-300 rounded-full mr-4 flex items-center justify-center transition-all duration-300 group-hover:border-instagram-pink group-hover:scale-110"
+                      >
+                        <div
+                          class="radio-dot w-3 h-3 bg-instagram-pink rounded-full scale-0 transition-transform duration-300"
+                        ></div>
+                      </div>
+                      <div class="flex-1">
+                        <div
+                          class="font-semibold text-gray-800 text-sm sm:text-base group-hover:text-instagram-pink transition-colors"
+                        >
+                          Fit Mode
+                        </div>
+                        <div class="text-xs sm:text-sm text-gray-500">
+                          Add padding to fit aspect ratio
+                        </div>
+                      </div>
+                      <div
+                        class="check-icon ml-2 opacity-0 transition-opacity duration-300"
+                      >
+                        <svg
+                          class="w-5 h-5 text-instagram-pink"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                            clip-rule="evenodd"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                  </label>
+
+                  <label
+                    class="radio-option relative flex items-center p-4 sm:p-5 bg-white border-2 border-gray-200 rounded-xl cursor-pointer hover:border-instagram-pink hover:shadow-lg transition-all duration-300 group"
+                  >
+                    <input
+                      type="radio"
+                      name="fitMode"
+                      value="fill"
+                      class="sr-only"
+                    />
+                    <div class="flex items-center w-full">
+                      <div
+                        class="radio-indicator w-6 h-6 border-2 border-gray-300 rounded-full mr-4 flex items-center justify-center transition-all duration-300 group-hover:border-instagram-pink group-hover:scale-110"
+                      >
+                        <div
+                          class="radio-dot w-3 h-3 bg-instagram-pink rounded-full scale-0 transition-transform duration-300"
+                        ></div>
+                      </div>
+                      <div class="flex-1">
+                        <div
+                          class="font-semibold text-gray-800 text-sm sm:text-base group-hover:text-instagram-pink transition-colors"
+                        >
+                          Fill Mode
+                        </div>
+                        <div class="text-xs sm:text-sm text-gray-500">
+                          Crop image to fill aspect ratio
+                        </div>
+                      </div>
+                      <div
+                        class="check-icon ml-2 opacity-0 transition-opacity duration-300"
+                      >
+                        <svg
+                          class="w-5 h-5 text-instagram-pink"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                            clip-rule="evenodd"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Generate Button -->
+              <button
+                id="padButton"
+                class="w-full py-4 sm:py-5 px-6 bg-gradient-to-r from-instagram-pink via-instagram-purple to-instagram-blue text-white font-bold text-base sm:text-lg rounded-2xl hover:from-instagram-purple hover:via-instagram-blue hover:to-instagram-pink transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-2xl flex items-center justify-center gap-3 group"
+              >
+                <svg
+                  class="w-5 h-5 sm:w-6 sm:h-6 group-hover:rotate-180 transition-transform duration-500"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+                  />
+                </svg>
+                Generate & Download
+              </button>
+            </div>
+          </div>
+
+          <!-- Preview Panel -->
+          <div class="glass-effect rounded-3xl p-6 sm:p-8 shadow-2xl">
+            <h2
+              class="text-xl sm:text-2xl font-semibold text-gray-800 mb-6 flex items-center gap-3"
+            >
+              <div
+                class="w-8 h-8 bg-gradient-to-r from-instagram-blue to-instagram-purple rounded-lg flex items-center justify-center"
+              >
+                <svg
+                  class="w-5 h-5 text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                  />
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                  />
+                </svg>
+              </div>
+              Preview
+            </h2>
+
+            <div
+              id="preview"
+              class="relative w-full min-h-[300px] sm:min-h-[400px] lg:min-h-[500px] bg-gray-100 rounded-2xl border-3 border-dashed border-gray-300 flex items-center justify-center overflow-hidden group"
+            >
+              <div class="text-center text-gray-500 p-8">
+                <svg
+                  class="w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-4 opacity-50"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                  />
+                </svg>
+                <p class="text-sm sm:text-base">
+                  Your cropped image will appear here
+                </p>
+                <p class="text-xs sm:text-sm mt-2 opacity-75">
+                  Upload an image to get started
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SEO Content Section -->
+        <div
+          class="glass-effect rounded-3xl p-6 sm:p-8 shadow-2xl mt-8 sm:mt-12"
+        >
+          <div class="max-w-4xl mx-auto text-gray-800">
+            <h2 class="text-2xl sm:text-3xl font-bold mb-6 text-center">
+              Free Instagram Image Resizer Tool - Perfect for All Instagram
+              Formats
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+              <div>
+                <h3 class="text-xl font-semibold mb-4 text-instagram-pink">
+                  🎯 Perfect Instagram Dimensions
+                </h3>
+                <p class="text-sm sm:text-base text-gray-700 mb-4">
+                  Our Instagram cropper tool supports all standard Instagram
+                  image sizes:
+                </p>
+                <ul class="text-sm text-gray-600 space-y-2">
+                  <li>
+                    • Instagram Square Posts: 1080x1080 pixels (1:1 ratio)
+                  </li>
+                  <li>
+                    • Instagram Portrait Posts: 1080x1350 pixels (4:5 ratio)
+                  </li>
+                  <li>
+                    • Instagram Landscape Posts: 1080x566 pixels (1.91:1 ratio)
+                  </li>
+                  <li>
+                    • Instagram Stories/Reels: 1080x1920 pixels (9:16 ratio)
+                  </li>
+                  <li>• Instagram Profile Pictures: 320x320 pixels</li>
+                </ul>
+              </div>
+
+              <div>
+                <h3 class="text-xl font-semibold mb-4 text-instagram-purple">
+                  ⚡ Key Features
+                </h3>
+                <ul class="text-sm text-gray-600 space-y-2">
+                  <li>
+                    • <strong>No Cropping Required</strong> - Add padding
+                    instead of cutting your images
+                  </li>
+                  <li>
+                    • <strong>Professional Padding</strong> - White background
+                    maintains image integrity
+                  </li>
+                  <li>
+                    • <strong>Multiple Aspect Ratios</strong> - Support for all
+                    Instagram formats
+                  </li>
+                  <li>
+                    • <strong>Instant Download</strong> - Get your resized
+                    images immediately
+                  </li>
+                  <li>
+                    • <strong>Free Online Tool</strong> - No registration or
+                    payment required
+                  </li>
+                  <li>
+                    • <strong>Mobile Friendly</strong> - Works on all devices
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <h3 class="text-xl font-semibold mb-4 text-instagram-blue">
+              📱 How to Resize Images for Instagram
+            </h3>
+            <p class="text-sm sm:text-base text-gray-700 mb-4">
+              Our Instagram image resizer makes it easy to prepare your photos
+              for any Instagram format. Simply upload your image, select the
+              desired Instagram format (square post, story, profile picture,
+              etc.), choose between Fit or Fill mode, and download your
+              perfectly sized image. The tool automatically adds professional
+              white padding to maintain your image's aspect ratio without
+              cropping important content.
+            </p>
+
+            <h3 class="text-xl font-semibold mb-4 text-instagram-orange">
+              🎨 Fit vs Fill Mode Explained
+            </h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+              <div class="bg-pink-50 p-4 rounded-lg">
+                <h4 class="font-semibold text-instagram-pink mb-2">Fit Mode</h4>
+                <p class="text-sm text-gray-600">
+                  Adds white padding around your image to fit the Instagram
+                  dimensions without cropping. Perfect for preserving the entire
+                  image content.
+                </p>
+              </div>
+              <div class="bg-purple-50 p-4 rounded-lg">
+                <h4 class="font-semibold text-instagram-purple mb-2">
+                  Fill Mode
+                </h4>
+                <p class="text-sm text-gray-600">
+                  Crops your image to exactly fill the Instagram dimensions.
+                  Best when you want the image to fill the entire frame.
+                </p>
+              </div>
+            </div>
+
+            <div class="text-center">
+              <p class="text-xs text-gray-500 mb-2">
+                Keywords: Instagram cropper, Instagram image resizer, resize
+                image for Instagram, Instagram aspect ratio, Instagram padding
+                tool, social media image resizer, free online tool, 1080x1080,
+                9:16 ratio, 4:5 ratio
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="text-center mt-8 sm:mt-12">
+          <p class="text-white/60 text-sm sm:text-base mb-4">
+            Made with ❤️ for Instagram creators
+          </p>
+          <div
+            class="flex flex-col sm:flex-row items-center justify-center gap-4 text-white/60 text-sm"
+          >
+            <p>More free tools:</p>
+            <div class="flex flex-col sm:flex-row gap-3">
+              <a
+                href="https://reduceimgsize.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-lg hover:bg-white/20 transition-all duration-300 hover:scale-105"
+              >
+                <svg
+                  class="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.1m0 0l4-4a4 4 0 105.656-5.656l-1.1 1.102m-2 2l-4 4"
+                  />
+                </svg>
+                Image Compressor
+              </a>
+              <a
+                href="https://ythumbnail.reduceimgsize.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-lg hover:bg-white/20 transition-all duration-300 hover:scale-105"
+              >
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                  <path
+                    d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"
+                  />
+                </svg>
+                YouTube Thumbnails
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      class InstagramCropper {
+        constructor() {
+          this.fileInput = document.getElementById("fileInput");
+          this.preview = document.getElementById("preview");
+          this.aspectRatioSelect = document.getElementById("aspectRatioSelect");
+          this.padButton = document.getElementById("padButton");
+          this.fitModeInputs = document.getElementsByName("fitMode");
+          this.image = null;
+          this.processedImageDataURL = null;
+
+          this.initEventListeners();
+          this.updateRadioStyles();
+        }
+
+        initEventListeners() {
+          this.fileInput.addEventListener("change", (e) =>
+            this.handleFileInput(e)
+          );
+          this.padButton.addEventListener("click", () =>
+            this.handleGenerateAndDownload()
+          );
+          this.aspectRatioSelect.addEventListener("change", () =>
+            this.processImage()
+          );
+          this.fitModeInputs.forEach((input) => {
+            input.addEventListener("change", () => {
+              this.processImage();
+              this.updateRadioStyles();
+            });
+          });
+        }
+
+        updateRadioStyles() {
+          this.fitModeInputs.forEach((input) => {
+            const label = input.closest("label");
+            const radioDot = label.querySelector(".radio-dot");
+            const radioIndicator = label.querySelector(".radio-indicator");
+            const checkIcon = label.querySelector(".check-icon");
+
+            if (input.checked) {
+              // Selected state styles
+              label.classList.add(
+                "border-instagram-pink",
+                "bg-gradient-to-br",
+                "from-pink-50",
+                "to-purple-50",
+                "shadow-lg",
+                "ring-2",
+                "ring-instagram-pink/20"
+              );
+              label.classList.remove("border-gray-200", "bg-white");
+
+              // Show radio dot with scale animation
+              radioDot.classList.add("scale-100");
+              radioDot.classList.remove("scale-0");
+
+              // Update indicator border
+              radioIndicator.classList.add("border-instagram-pink", "bg-white");
+              radioIndicator.classList.remove("border-gray-300");
+
+              // Show check icon
+              checkIcon.classList.add("opacity-100");
+              checkIcon.classList.remove("opacity-0");
+            } else {
+              // Unselected state styles
+              label.classList.remove(
+                "border-instagram-pink",
+                "bg-gradient-to-br",
+                "from-pink-50",
+                "to-purple-50",
+                "shadow-lg",
+                "ring-2",
+                "ring-instagram-pink/20"
+              );
+              label.classList.add("border-gray-200", "bg-white");
+
+              // Hide radio dot
+              radioDot.classList.remove("scale-100");
+              radioDot.classList.add("scale-0");
+
+              // Reset indicator border
+              radioIndicator.classList.remove(
+                "border-instagram-pink",
+                "bg-white"
+              );
+              radioIndicator.classList.add("border-gray-300");
+
+              // Hide check icon
+              checkIcon.classList.remove("opacity-100");
+              checkIcon.classList.add("opacity-0");
+            }
+          });
+        }
+
+        handleFileInput(e) {
+          const file = e.target.files[0];
+          if (!file) {
+            this.resetPreview();
+            return;
+          }
+
+          // Show loading state
+          this.showLoadingState();
+
+          const reader = new FileReader();
+          reader.onload = () => {
+            this.image = new Image();
+            this.image.onload = () => {
+              this.processImage();
+            };
+            this.image.onerror = () => {
+              alert("Error loading image. Please try a different file.");
+              this.resetPreview();
+            };
+            this.image.src = reader.result;
+          };
+          reader.readAsDataURL(file);
+        }
+
+        showLoadingState() {
+          this.preview.innerHTML = `
+            <div class="flex flex-col items-center justify-center text-instagram-purple">
+              <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-instagram-purple mb-4"></div>
+              <p class="text-sm font-medium">Processing image...</p>
+            </div>
+          `;
+          this.preview.classList.remove(
+            "border-dashed",
+            "border-gray-300",
+            "bg-gray-100"
+          );
+          this.preview.classList.add("border-solid", "border-gray-400");
+        }
+
+        resetPreview() {
+          this.preview.innerHTML = `
+            <div class="text-center text-gray-500 p-8">
+              <svg class="w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-4 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+              </svg>
+              <p class="text-sm sm:text-base">Your cropped image will appear here</p>
+              <p class="text-xs sm:text-sm mt-2 opacity-75">Upload an image to get started</p>
+            </div>
+          `;
+          this.preview.classList.remove(
+            "border-solid",
+            "border-gray-400",
+            "border-green-400",
+            "border-instagram-purple/30"
+          );
+          this.preview.classList.add(
+            "border-dashed",
+            "border-gray-300",
+            "bg-gray-100"
+          );
+          this.image = null;
+          this.processedImageDataURL = null;
+        }
+
+        getSelectedFitMode() {
+          const selectedRadio = Array.from(this.fitModeInputs).find(
+            (r) => r.checked
+          );
+          return selectedRadio ? selectedRadio.value : null;
+        }
+
+        calculateTargetDimensions(aspectRatio, mode) {
+          const originalWidth = this.image.naturalWidth;
+          const originalHeight = this.image.naturalHeight;
+          const currentRatio = originalWidth / originalHeight;
+
+          let targetWidth, targetHeight;
+
+          if (mode === "fit") {
+            targetWidth = originalWidth;
+            targetHeight = originalHeight;
+            if (currentRatio > aspectRatio) {
+              targetHeight = Math.round(originalWidth / aspectRatio);
+            } else if (currentRatio < aspectRatio) {
+              targetWidth = Math.round(originalHeight * aspectRatio);
+            }
+          } else {
+            if (currentRatio > aspectRatio) {
+              targetWidth = Math.round(originalHeight * aspectRatio);
+              targetHeight = originalHeight;
+            } else {
+              targetWidth = originalWidth;
+              targetHeight = Math.round(originalWidth / aspectRatio);
+            }
+          }
+
+          return {
+            targetWidth,
+            targetHeight,
+            originalWidth,
+            originalHeight,
+            currentRatio,
+          };
+        }
+
+        drawImageOnCanvas(canvas, ctx, dimensions, mode, aspectRatio) {
+          const {
+            targetWidth,
+            targetHeight,
+            originalWidth,
+            originalHeight,
+            currentRatio,
+          } = dimensions;
+
+          // Clear canvas and fill with white background
+          ctx.clearRect(0, 0, targetWidth, targetHeight);
+          ctx.fillStyle = "white";
+          ctx.fillRect(0, 0, targetWidth, targetHeight);
+
+          // Add border around canvas
+          ctx.strokeStyle = "#e5e7eb"; // Gray-200 color
+          ctx.lineWidth = 2;
+          ctx.strokeRect(1, 1, targetWidth - 2, targetHeight - 2);
+
+          if (mode === "fit") {
+            const dx = (targetWidth - originalWidth) / 2;
+            const dy = (targetHeight - originalHeight) / 2;
+            ctx.drawImage(this.image, dx, dy);
+          } else {
+            let sx = 0,
+              sy = 0,
+              sWidth = originalWidth,
+              sHeight = originalHeight;
+
+            if (currentRatio > aspectRatio) {
+              sWidth = originalHeight * aspectRatio;
+              sx = (originalWidth - sWidth) / 2;
+            } else {
+              sHeight = originalWidth / aspectRatio;
+              sy = (originalHeight - sHeight) / 2;
+            }
+
+            ctx.drawImage(
+              this.image,
+              sx,
+              sy,
+              sWidth,
+              sHeight,
+              0,
+              0,
+              targetWidth,
+              targetHeight
+            );
+          }
+        }
+
+        processImage() {
+          if (!this.image) return;
+
+          const aspectRatio = parseFloat(this.aspectRatioSelect.value);
+          const mode = this.getSelectedFitMode();
+
+          if (!mode) {
+            alert("Please select 'fit' or 'fill' mode.");
+            return;
+          }
+
+          const dimensions = this.calculateTargetDimensions(aspectRatio, mode);
+          const canvas = document.createElement("canvas");
+          canvas.width = dimensions.targetWidth;
+          canvas.height = dimensions.targetHeight;
+          const ctx = canvas.getContext("2d");
+
+          this.drawImageOnCanvas(canvas, ctx, dimensions, mode, aspectRatio);
+
+          this.processedImageDataURL = canvas.toDataURL("image/png");
+          this.updatePreview();
+        }
+
+        updatePreview() {
+          // Create image container for simple centering
+          const imageContainer = document.createElement("div");
+          imageContainer.className =
+            "w-full h-full flex items-center justify-center p-4";
+
+          const resultImg = new Image();
+          resultImg.src = this.processedImageDataURL;
+          resultImg.className = "max-w-full max-h-full object-contain";
+
+          // Create info overlay showing dimensions
+          const aspectRatio = parseFloat(this.aspectRatioSelect.value);
+          const mode = this.getSelectedFitMode();
+          const dimensions = this.calculateTargetDimensions(aspectRatio, mode);
+
+          const infoDiv = document.createElement("div");
+          infoDiv.className =
+            "preview-info absolute top-4 right-4 px-3 py-2 text-white text-xs sm:text-sm font-semibold rounded-lg backdrop-blur-sm";
+          infoDiv.textContent = `${dimensions.targetWidth} × ${dimensions.targetHeight}px`;
+
+          // Clear preview and add new content
+          this.preview.innerHTML = "";
+          imageContainer.appendChild(resultImg);
+          this.preview.appendChild(imageContainer);
+          this.preview.appendChild(infoDiv);
+
+          // Update preview container styling - simple and clean
+          this.preview.classList.remove(
+            "border-dashed",
+            "border-gray-300",
+            "bg-gray-100"
+          );
+          this.preview.classList.add("border-solid", "border-gray-400");
+        }
+
+        downloadImage() {
+          if (!this.processedImageDataURL) return;
+
+          const link = document.createElement("a");
+          link.href = this.processedImageDataURL;
+          link.download = "instagram-cropped-image.png";
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+
+          // Clear everything after download
+          setTimeout(() => {
+            this.clearAll();
+          }, 100); // Small delay to ensure download starts
+        }
+
+        clearAll() {
+          // Reset file input
+          this.fileInput.value = "";
+
+          // Reset preview
+          this.resetPreview();
+
+          // Reset radio buttons to default (fit mode)
+          this.fitModeInputs.forEach((input) => {
+            if (input.value === "fit") {
+              input.checked = true;
+            } else {
+              input.checked = false;
+            }
+          });
+
+          // Update radio button styles
+          this.updateRadioStyles();
+
+          // Reset aspect ratio to default (square)
+          this.aspectRatioSelect.value = "1";
+        }
+
+        handleGenerateAndDownload() {
+          if (!this.image) {
+            alert("Please upload an image first!");
+            return;
+          }
+          this.processImage();
+          this.downloadImage();
+        }
+      }
+
+      // Initialize the application
+      document.addEventListener("DOMContentLoaded", () => {
+        new InstagramCropper();
+      });
+    </script>
+  </body>
+</html>
