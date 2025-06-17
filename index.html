@@ -56,49 +56,8 @@
     />
     <link rel="manifest" href="assets/site.webmanifest" />
 
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css"
-      rel="stylesheet"
-    />
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            colors: {
-              instagram: {
-                pink: "#E4405F",
-                purple: "#833AB4",
-                orange: "#F56040",
-                yellow: "#FCCC63",
-                blue: "#4285F4",
-              },
-            },
-            animation: {
-              gradient: "gradient 6s ease infinite",
-              float: "float 6s ease-in-out infinite",
-              "pulse-slow": "pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite",
-            },
-            keyframes: {
-              gradient: {
-                "0%, 100%": {
-                  "background-size": "200% 200%",
-                  "background-position": "left center",
-                },
-                "50%": {
-                  "background-size": "200% 200%",
-                  "background-position": "right center",
-                },
-              },
-              float: {
-                "0%, 100%": { transform: "translateY(0px)" },
-                "50%": { transform: "translateY(-10px)" },
-              },
-            },
-          },
-        },
-      };
-    </script>
+    <link rel="stylesheet" href="assets/css/style.css" />
+
     <style>
       .gradient-bg {
         background: linear-gradient(-45deg, #833ab4, #e4405f, #f56040, #fccc63);
