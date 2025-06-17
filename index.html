@@ -77,8 +77,12 @@
         }
 
         initEventListeners() {
-          this.fileInput.addEventListener("change", (e) => this.handleFileInput(e));
-          this.padButton.addEventListener("click", () => this.handleGenerateAndDownload());
+          this.fileInput.addEventListener("change", (e) =>
+            this.handleFileInput(e)
+          );
+          this.padButton.addEventListener("click", () =>
+            this.handleGenerateAndDownload()
+          );
           this.fitModeInputs.forEach((input) => {
             input.addEventListener("change", () => this.processImage());
           });
@@ -99,7 +103,9 @@
         }
 
         getSelectedFitMode() {
-          const selectedRadio = Array.from(this.fitModeInputs).find((r) => r.checked);
+          const selectedRadio = Array.from(this.fitModeInputs).find(
+            (r) => r.checked
+          );
           return selectedRadio ? selectedRadio.value : null;
         }
 
@@ -128,12 +134,24 @@
             }
           }
 
-          return { targetWidth, targetHeight, originalWidth, originalHeight, currentRatio };
+          return {
+            targetWidth,
+            targetHeight,
+            originalWidth,
+            originalHeight,
+            currentRatio,
+          };
         }
 
         drawImageOnCanvas(canvas, ctx, dimensions, mode, aspectRatio) {
-          const { targetWidth, targetHeight, originalWidth, originalHeight, currentRatio } = dimensions;
-          
+          const {
+            targetWidth,
+            targetHeight,
+            originalWidth,
+            originalHeight,
+            currentRatio,
+          } = dimensions;
+
           ctx.clearRect(0, 0, targetWidth, targetHeight);
 
           if (mode === "fit") {
@@ -141,8 +159,11 @@
             const dy = (targetHeight - originalHeight) / 2;
             ctx.drawImage(this.image, dx, dy);
           } else {
-            let sx = 0, sy = 0, sWidth = originalWidth, sHeight = originalHeight;
-            
+            let sx = 0,
+              sy = 0,
+              sWidth = originalWidth,
+              sHeight = originalHeight;
+
             if (currentRatio > aspectRatio) {
               sWidth = originalHeight * aspectRatio;
               sx = (originalWidth - sWidth) / 2;
@@ -150,8 +171,18 @@
               sHeight = originalWidth / aspectRatio;
               sy = (originalHeight - sHeight) / 2;
             }
-            
-            ctx.drawImage(this.image, sx, sy, sWidth, sHeight, 0, 0, targetWidth, targetHeight);
+
+            ctx.drawImage(
+              this.image,
+              sx,
+              sy,
+              sWidth,
+              sHeight,
+              0,
+              0,
+              targetWidth,
+              targetHeight
+            );
           }
         }
 
@@ -160,7 +191,7 @@
 
           const aspectRatio = parseFloat(this.aspectRatioSelect.value);
           const mode = this.getSelectedFitMode();
-          
+
           if (!mode) {
             alert("Please select 'fit' or 'fill' mode.");
             return;
@@ -208,4 +239,4 @@
       });
     </script>
   </body>
-</html>+
+</html>
