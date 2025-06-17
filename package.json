@@ -4,8 +4,8 @@
   "description": "Instagram image cropper and resizer tool",
   "main": "index.html",
   "scripts": {
-    "build-css": "tailwindcss -i ./src/input.css -o ./assets/css/style.css --watch",
-    "build-css-prod": "tailwindcss -i ./src/input.css -o ./assets/css/style.css --minify",
+    "build-css": "tailwindcss -i ./src/index.css -o ./assets/css/style.css --watch",
+    "build-css-prod": "tailwindcss -i ./src/index.css -o ./assets/css/style.css --minify",
     "dev": "npm run build-css",
     "build": "npm run build-css-prod"
   },
