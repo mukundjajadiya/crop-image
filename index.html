@@ -52,7 +52,9 @@
       </select>
 
       <div class="radio-group">
-        <label><input type="radio" name="fitMode" value="fit" /> Fit</label>
+        <label
+          ><input type="radio" name="fitMode" value="fit" checked /> Fit</label
+        >
         <label><input type="radio" name="fitMode" value="fill" /> Fill</label>
       </div>
 
@@ -83,6 +85,9 @@
           this.padButton.addEventListener("click", () =>
             this.handleGenerateAndDownload()
           );
+          this.aspectRatioSelect.addEventListener("change", () =>
+            this.processImage()
+          );
           this.fitModeInputs.forEach((input) => {
             input.addEventListener("change", () => this.processImage());
           });
@@ -96,7 +101,10 @@
           reader.onload = () => {
             this.preview.innerHTML = "";
             this.image = new Image();
-            this.image.onload = () => this.preview.appendChild(this.image);
+            this.image.onload = () => {
+              this.preview.appendChild(this.image);
+              this.processImage();
+            };
             this.image.src = reader.result;
           };
           reader.readAsDataURL(file);
