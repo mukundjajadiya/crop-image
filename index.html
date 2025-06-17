@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Instagram Cropper</title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: sans-serif;
+        margin: 20px;
+      }
+      .container {
+        max-width: 600px;
+        margin: auto;
+      }
+      #preview {
+        margin-top: 20px;
+        border: 1px solid #ccc;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #f0f0f0;
+        overflow: hidden;
+      }
+      img {
+        max-width: 100%;
+      }
+      select,
+      button {
+        margin-top: 10px;
+        margin-right: 10px;
+      }
+      .radio-group {
+        margin-top: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Instagram Image Padding Tool</h2>
+      <input type="file" id="fileInput" accept="image/*" /><br />
+
+      <label>Instagram Format:</label>
+      <select id="aspectRatioSelect">
+        <option value="1">Instagram Square Post (1:1)</option>
+        <option value="0.8">Instagram Portrait Post (4:5)</option>
+        <option value="1.91">Instagram Landscape Post (1.91:1)</option>
+        <option value="0.5625">Instagram Story/Reel (9:16)</option>
+      </select>
+
+      <div class="radio-group">
+        <label><input type="radio" name="fitMode" value="fit" /> Fit</label>
+        <label><input type="radio" name="fitMode" value="fill" /> Fill</label>
+      </div>
+
+      <br />
+      <button id="padButton">Generate & Download</button>
+
+      <div id="preview"></div>
+    </div>
+
+    <script>
+      class InstagramCropper {
+        constructor() {
+          this.fileInput = document.getElementById("fileInput");
+          this.preview = document.getElementById("preview");
+          this.aspectRatioSelect = document.getElementById("aspectRatioSelect");
+          this.padButton = document.getElementById("padButton");
+          this.fitModeInputs = document.getElementsByName("fitMode");
+          this.image = null;
+          this.processedImageDataURL = null;
+
+          this.initEventListeners();
+        }
+
+        initEventListeners() {
+          this.fileInput.addEventListener("change", (e) => this.handleFileInput(e));
+          this.padButton.addEventListener("click", () => this.handleGenerateAndDownload());
+          this.fitModeInputs.forEach((input) => {
+            input.addEventListener("change", () => this.processImage());
+          });
+        }
+
+        handleFileInput(e) {
+          const file = e.target.files[0];
+          if (!file) return;
+
+          const reader = new FileReader();
+          reader.onload = () => {
+            this.preview.innerHTML = "";
+            this.image = new Image();
+            this.image.onload = () => this.preview.appendChild(this.image);
+            this.image.src = reader.result;
+          };
+          reader.readAsDataURL(file);
+        }
+
+        getSelectedFitMode() {
+          const selectedRadio = Array.from(this.fitModeInputs).find((r) => r.checked);
+          return selectedRadio ? selectedRadio.value : null;
+        }
+
+        calculateTargetDimensions(aspectRatio, mode) {
+          const originalWidth = this.image.naturalWidth;
+          const originalHeight = this.image.naturalHeight;
+          const currentRatio = originalWidth / originalHeight;
+
+          let targetWidth, targetHeight;
+
+          if (mode === "fit") {
+            targetWidth = originalWidth;
+            targetHeight = originalHeight;
+            if (currentRatio > aspectRatio) {
+              targetHeight = Math.round(originalWidth / aspectRatio);
+            } else if (currentRatio < aspectRatio) {
+              targetWidth = Math.round(originalHeight * aspectRatio);
+            }
+          } else {
+            if (currentRatio > aspectRatio) {
+              targetWidth = Math.round(originalHeight * aspectRatio);
+              targetHeight = originalHeight;
+            } else {
+              targetWidth = originalWidth;
+              targetHeight = Math.round(originalWidth / aspectRatio);
+            }
+          }
+
+          return { targetWidth, targetHeight, originalWidth, originalHeight, currentRatio };
+        }
+
+        drawImageOnCanvas(canvas, ctx, dimensions, mode, aspectRatio) {
+          const { targetWidth, targetHeight, originalWidth, originalHeight, currentRatio } = dimensions;
+          
+          ctx.clearRect(0, 0, targetWidth, targetHeight);
+
+          if (mode === "fit") {
+            const dx = (targetWidth - originalWidth) / 2;
+            const dy = (targetHeight - originalHeight) / 2;
+            ctx.drawImage(this.image, dx, dy);
+          } else {
+            let sx = 0, sy = 0, sWidth = originalWidth, sHeight = originalHeight;
+            
+            if (currentRatio > aspectRatio) {
+              sWidth = originalHeight * aspectRatio;
+              sx = (originalWidth - sWidth) / 2;
+            } else {
+              sHeight = originalWidth / aspectRatio;
+              sy = (originalHeight - sHeight) / 2;
+            }
+            
+            ctx.drawImage(this.image, sx, sy, sWidth, sHeight, 0, 0, targetWidth, targetHeight);
+          }
+        }
+
+        processImage() {
+          if (!this.image) return;
+
+          const aspectRatio = parseFloat(this.aspectRatioSelect.value);
+          const mode = this.getSelectedFitMode();
+          
+          if (!mode) {
+            alert("Please select 'fit' or 'fill' mode.");
+            return;
+          }
+
+          const dimensions = this.calculateTargetDimensions(aspectRatio, mode);
+          const canvas = document.createElement("canvas");
+          canvas.width = dimensions.targetWidth;
+          canvas.height = dimensions.targetHeight;
+          const ctx = canvas.getContext("2d");
+
+          this.drawImageOnCanvas(canvas, ctx, dimensions, mode, aspectRatio);
+
+          this.processedImageDataURL = canvas.toDataURL("image/png");
+          this.updatePreview();
+        }
+
+        updatePreview() {
+          const resultImg = new Image();
+          resultImg.src = this.processedImageDataURL;
+          this.preview.innerHTML = "";
+          this.preview.appendChild(resultImg);
+        }
+
+        downloadImage() {
+          if (!this.processedImageDataURL) return;
+
+          const link = document.createElement("a");
+          link.href = this.processedImageDataURL;
+          link.download = "padded-image.png";
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        }
+
+        handleGenerateAndDownload() {
+          this.processImage();
+          this.downloadImage();
+        }
+      }
+
+      // Initialize the application
+      document.addEventListener("DOMContentLoaded", () => {
+        new InstagramCropper();
+      });
+    </script>
+  </body>
+</html>+
