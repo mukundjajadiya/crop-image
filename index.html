@@ -253,7 +253,7 @@
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                   <label
-                    class="relative flex items-center p-4 sm:p-5 bg-white border-2 border-gray-200 rounded-xl cursor-pointer hover:border-instagram-pink transition-all duration-300 group"
+                    class="radio-option relative flex items-center p-4 sm:p-5 bg-white border-2 border-gray-200 rounded-xl cursor-pointer hover:border-instagram-pink hover:shadow-lg transition-all duration-300 group"
                   >
                     <input
                       type="radio"
@@ -264,27 +264,42 @@
                     />
                     <div class="flex items-center w-full">
                       <div
-                        class="w-5 h-5 border-2 border-gray-300 rounded-full mr-3 group-hover:border-instagram-pink transition-colors flex items-center justify-center"
+                        class="radio-indicator w-6 h-6 border-2 border-gray-300 rounded-full mr-4 flex items-center justify-center transition-all duration-300 group-hover:border-instagram-pink group-hover:scale-110"
                       >
                         <div
-                          class="w-2.5 h-2.5 bg-instagram-pink rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                          class="radio-dot w-3 h-3 bg-instagram-pink rounded-full scale-0 transition-transform duration-300"
                         ></div>
                       </div>
-                      <div>
+                      <div class="flex-1">
                         <div
-                          class="font-semibold text-gray-800 text-sm sm:text-base"
+                          class="font-semibold text-gray-800 text-sm sm:text-base group-hover:text-instagram-pink transition-colors"
                         >
                           Fit Mode
                         </div>
                         <div class="text-xs sm:text-sm text-gray-500">
-                          Add padding to fit
+                          Add padding to fit aspect ratio
                         </div>
+                      </div>
+                      <div
+                        class="check-icon ml-2 opacity-0 transition-opacity duration-300"
+                      >
+                        <svg
+                          class="w-5 h-5 text-instagram-pink"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                            clip-rule="evenodd"
+                          />
+                        </svg>
                       </div>
                     </div>
                   </label>
 
                   <label
-                    class="relative flex items-center p-4 sm:p-5 bg-white border-2 border-gray-200 rounded-xl cursor-pointer hover:border-instagram-pink transition-all duration-300 group"
+                    class="radio-option relative flex items-center p-4 sm:p-5 bg-white border-2 border-gray-200 rounded-xl cursor-pointer hover:border-instagram-pink hover:shadow-lg transition-all duration-300 group"
                   >
                     <input
                       type="radio"
@@ -294,21 +309,36 @@
                     />
                     <div class="flex items-center w-full">
                       <div
-                        class="w-5 h-5 border-2 border-gray-300 rounded-full mr-3 group-hover:border-instagram-pink transition-colors flex items-center justify-center"
+                        class="radio-indicator w-6 h-6 border-2 border-gray-300 rounded-full mr-4 flex items-center justify-center transition-all duration-300 group-hover:border-instagram-pink group-hover:scale-110"
                       >
                         <div
-                          class="w-2.5 h-2.5 bg-instagram-pink rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                          class="radio-dot w-3 h-3 bg-instagram-pink rounded-full scale-0 transition-transform duration-300"
                         ></div>
                       </div>
-                      <div>
+                      <div class="flex-1">
                         <div
-                          class="font-semibold text-gray-800 text-sm sm:text-base"
+                          class="font-semibold text-gray-800 text-sm sm:text-base group-hover:text-instagram-pink transition-colors"
                         >
                           Fill Mode
                         </div>
                         <div class="text-xs sm:text-sm text-gray-500">
-                          Crop to fill
+                          Crop image to fill aspect ratio
                         </div>
+                      </div>
+                      <div
+                        class="check-icon ml-2 opacity-0 transition-opacity duration-300"
+                      >
+                        <svg
+                          class="w-5 h-5 text-instagram-pink"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                            clip-rule="evenodd"
+                          />
+                        </svg>
                       </div>
                     </div>
                   </label>
@@ -443,18 +473,61 @@
         updateRadioStyles() {
           this.fitModeInputs.forEach((input) => {
             const label = input.closest("label");
-            const indicator = label.querySelector("div > div");
+            const radioDot = label.querySelector(".radio-dot");
+            const radioIndicator = label.querySelector(".radio-indicator");
+            const checkIcon = label.querySelector(".check-icon");
 
             if (input.checked) {
-              label.classList.add("border-instagram-pink", "bg-pink-50");
-              label.classList.remove("border-gray-200");
-              indicator.classList.add("opacity-100");
-              indicator.classList.remove("opacity-0");
+              // Selected state styles
+              label.classList.add(
+                "border-instagram-pink",
+                "bg-gradient-to-br",
+                "from-pink-50",
+                "to-purple-50",
+                "shadow-lg",
+                "ring-2",
+                "ring-instagram-pink/20"
+              );
+              label.classList.remove("border-gray-200", "bg-white");
+
+              // Show radio dot with scale animation
+              radioDot.classList.add("scale-100");
+              radioDot.classList.remove("scale-0");
+
+              // Update indicator border
+              radioIndicator.classList.add("border-instagram-pink", "bg-white");
+              radioIndicator.classList.remove("border-gray-300");
+
+              // Show check icon
+              checkIcon.classList.add("opacity-100");
+              checkIcon.classList.remove("opacity-0");
             } else {
-              label.classList.remove("border-instagram-pink", "bg-pink-50");
-              label.classList.add("border-gray-200");
-              indicator.classList.remove("opacity-100");
-              indicator.classList.add("opacity-0");
+              // Unselected state styles
+              label.classList.remove(
+                "border-instagram-pink",
+                "bg-gradient-to-br",
+                "from-pink-50",
+                "to-purple-50",
+                "shadow-lg",
+                "ring-2",
+                "ring-instagram-pink/20"
+              );
+              label.classList.add("border-gray-200", "bg-white");
+
+              // Hide radio dot
+              radioDot.classList.remove("scale-100");
+              radioDot.classList.add("scale-0");
+
+              // Reset indicator border
+              radioIndicator.classList.remove(
+                "border-instagram-pink",
+                "bg-white"
+              );
+              radioIndicator.classList.add("border-gray-300");
+
+              // Hide check icon
+              checkIcon.classList.remove("opacity-100");
+              checkIcon.classList.add("opacity-0");
             }
           });
         }
