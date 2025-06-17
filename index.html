@@ -18,15 +18,51 @@
       }
       #preview {
         margin-top: 20px;
-        border: 1px solid #ccc;
         display: flex;
         align-items: center;
         justify-content: center;
-        background: #f0f0f0;
         overflow: hidden;
+        width: 100%;
+        min-height: 200px;
+        max-width: 500px;
+        margin-left: auto;
+        margin-right: auto;
+        padding: 10px;
+        box-sizing: border-box;
       }
-      img {
+      #preview img {
         max-width: 100%;
+        max-height: 80vh;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+      .preview-info {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        background: rgba(0, 0, 0, 0.7);
+        color: white;
+        padding: 4px 8px;
+        font-size: 12px;
+        border-radius: 3px;
+      }
+      #preview {
+        position: relative;
+      }
+
+      /* Responsive design */
+      @media (max-width: 768px) {
+        #preview {
+          max-width: 100%;
+        }
+        #preview img {
+          max-height: 60vh;
+        }
+      }
+
+      @media (max-width: 480px) {
+        #preview img {
+          max-height: 50vh;
+        }
       }
       select,
       button {
@@ -102,7 +138,6 @@
             this.preview.innerHTML = "";
             this.image = new Image();
             this.image.onload = () => {
-              this.preview.appendChild(this.image);
               this.processImage();
             };
             this.image.src = reader.result;
@@ -220,8 +255,19 @@
         updatePreview() {
           const resultImg = new Image();
           resultImg.src = this.processedImageDataURL;
+
+          // Create info overlay showing dimensions
+          const aspectRatio = parseFloat(this.aspectRatioSelect.value);
+          const mode = this.getSelectedFitMode();
+          const dimensions = this.calculateTargetDimensions(aspectRatio, mode);
+
+          const infoDiv = document.createElement("div");
+          infoDiv.className = "preview-info";
+          infoDiv.textContent = `${dimensions.targetWidth} × ${dimensions.targetHeight}px`;
+
           this.preview.innerHTML = "";
           this.preview.appendChild(resultImg);
+          this.preview.appendChild(infoDiv);
         }
 
         downloadImage() {
