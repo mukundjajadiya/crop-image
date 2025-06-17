@@ -569,11 +569,7 @@
             "border-gray-300",
             "bg-gray-100"
           );
-          this.preview.classList.add(
-            "border-solid",
-            "border-instagram-purple/30",
-            "bg-purple-50"
-          );
+          this.preview.classList.add("border-solid", "border-gray-400");
         }
 
         resetPreview() {
@@ -588,13 +584,9 @@
           `;
           this.preview.classList.remove(
             "border-solid",
+            "border-gray-400",
             "border-green-400",
-            "border-instagram-purple/30",
-            "bg-gradient-to-br",
-            "from-green-50",
-            "to-emerald-50",
-            "bg-purple-50",
-            "shadow-inner"
+            "border-instagram-purple/30"
           );
           this.preview.classList.add(
             "border-dashed",
@@ -655,7 +647,15 @@
             currentRatio,
           } = dimensions;
 
+          // Clear canvas and fill with white background
           ctx.clearRect(0, 0, targetWidth, targetHeight);
+          ctx.fillStyle = "white";
+          ctx.fillRect(0, 0, targetWidth, targetHeight);
+
+          // Add border around canvas
+          ctx.strokeStyle = "#e5e7eb"; // Gray-200 color
+          ctx.lineWidth = 2;
+          ctx.strokeRect(1, 1, targetWidth - 2, targetHeight - 2);
 
           if (mode === "fit") {
             const dx = (targetWidth - originalWidth) / 2;
@@ -713,15 +713,14 @@
         }
 
         updatePreview() {
-          // Create image container for better positioning and centering
+          // Create image container for simple centering
           const imageContainer = document.createElement("div");
           imageContainer.className =
             "w-full h-full flex items-center justify-center p-4";
 
           const resultImg = new Image();
           resultImg.src = this.processedImageDataURL;
-          resultImg.className =
-            "max-w-full max-h-full object-contain rounded-xl shadow-2xl border border-white/20 transition-all duration-500 hover:scale-105";
+          resultImg.className = "max-w-full max-h-full object-contain";
 
           // Create info overlay showing dimensions
           const aspectRatio = parseFloat(this.aspectRatioSelect.value);
@@ -730,7 +729,7 @@
 
           const infoDiv = document.createElement("div");
           infoDiv.className =
-            "preview-info absolute top-4 right-4 px-3 py-2 text-white text-xs sm:text-sm font-semibold rounded-lg shadow-lg backdrop-blur-sm";
+            "preview-info absolute top-4 right-4 px-3 py-2 text-white text-xs sm:text-sm font-semibold rounded-lg backdrop-blur-sm";
           infoDiv.textContent = `${dimensions.targetWidth} × ${dimensions.targetHeight}px`;
 
           // Clear preview and add new content
@@ -739,20 +738,13 @@
           this.preview.appendChild(imageContainer);
           this.preview.appendChild(infoDiv);
 
-          // Update preview container styling with smooth transition
+          // Update preview container styling - simple and clean
           this.preview.classList.remove(
             "border-dashed",
             "border-gray-300",
             "bg-gray-100"
           );
-          this.preview.classList.add(
-            "border-solid",
-            "border-green-400",
-            "bg-gradient-to-br",
-            "from-green-50",
-            "to-emerald-50",
-            "shadow-inner"
-          );
+          this.preview.classList.add("border-solid", "border-gray-400");
         }
 
         downloadImage() {
@@ -764,6 +756,34 @@
           document.body.appendChild(link);
           link.click();
           document.body.removeChild(link);
+
+          // Clear everything after download
+          setTimeout(() => {
+            this.clearAll();
+          }, 100); // Small delay to ensure download starts
+        }
+
+        clearAll() {
+          // Reset file input
+          this.fileInput.value = "";
+
+          // Reset preview
+          this.resetPreview();
+
+          // Reset radio buttons to default (fit mode)
+          this.fitModeInputs.forEach((input) => {
+            if (input.value === "fit") {
+              input.checked = true;
+            } else {
+              input.checked = false;
+            }
+          });
+
+          // Update radio button styles
+          this.updateRadioStyles();
+
+          // Reset aspect ratio to default (square)
+          this.aspectRatioSelect.value = "1";
         }
 
         handleGenerateAndDownload() {
